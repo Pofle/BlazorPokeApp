@@ -1,0 +1,25 @@
+# Build outputs
+bin/
+obj/
+
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal
+
+# User secrets & sensitive config
+appsettings.json
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# dotnet tools
+.dotnet/
+
+# NuGet
+*.nupkg
