@@ -1,7 +1,39 @@
 ﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using PowkeApp.Api
+@using PowkeApp.Data
+@inject HttpClient Http
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Pokemons</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Pokemons</h1>
 
-Welcome to your new app.
+<p>
+    <a href="pokemons/create">Create New</a>
+</p>
+
+@if (pokemons == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <QuickGrid Class="table" Items="pokemons.AsQueryable()">
+        <TemplateColumn Title="Sprite">
+            <img src="@context.FrontDefault" alt="@context.Name" width="60" />
+        </TemplateColumn>
+        <PropertyColumn Property="pokemon => pokemon.Name" />
+        <PropertyColumn Property="pokemon => pokemon.Weight" />
+        
+    </QuickGrid>
+}
+
+@code {
+    private List<PokemonDto>? pokemons;
+
+    protected override async Task OnInitializedAsync()
+    {
+        pokemons = await Http.GetFromJsonAsync<List<PokemonDto>>("/api/pokemons");
+    }
+}

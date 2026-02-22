@@ -11,7 +11,18 @@ public static class PokemonApi
         app.MapGet("/api/pokemons", async (IDbContextFactory<PowkeAppDbContext> dbFactory) =>
         {
             await using var context = await dbFactory.CreateDbContextAsync();
-            return await context.Pokemons.ToListAsync();
+            return await context.Pokemons
+                .Include(p => p.Sprite)
+                .Select(p => new 
+                {
+                    p.Id,
+                    p.Name,
+                    p.Weight,
+                    p.Height,
+                    p.Order,
+                    FrontDefault = p.Sprite != null ? p.Sprite.FrontDefault : null
+                })
+                .ToListAsync();
         });
     }
 }
