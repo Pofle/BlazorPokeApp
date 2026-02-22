@@ -11,7 +11,7 @@ public static class PokemonApi
         app.MapGet("/api/pokemons", async (IDbContextFactory<PowkeAppDbContext> dbFactory) =>
         {
             await using var context = await dbFactory.CreateDbContextAsync();
-            return await context.Pokemon.ToListAsync();
+            return await context.Pokemons.ToListAsync();
         });
     }
 }
