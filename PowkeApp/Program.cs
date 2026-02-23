@@ -27,8 +27,6 @@ var baseUrl = builder.Environment.IsDevelopment()
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseUrl) });
 
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -56,8 +54,5 @@ app.MapRazorComponents<App>()
 
 // API Endpoints
 app.MapPokemonEndpoints();
-
-
-
 
 app.Run();

@@ -1,4 +1,4 @@
-namespace PowkeApp.Api;
+namespace PowkeApp.Data;
 
 public class PokemonDto
 {

@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using PowkeApp.Data;
-using PowkeApp.Models;
 
 namespace PowkeApp.Api;
 
