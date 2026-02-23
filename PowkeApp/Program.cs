@@ -55,7 +55,6 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 // API Endpoints
-//app.MapSeedEndpoints(); //  seed to get datas from poke api Go to https://localhost:7078/api/seed
 app.MapPokemonEndpoints();
 
 
