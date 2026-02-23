@@ -1,4 +1,5 @@
 ﻿@page "/teams/create"
+@rendermode InteractiveServer
 @using PowkeApp.Data
 @inject HttpClient Http
 @inject NavigationManager Nav
@@ -12,20 +13,20 @@
                 </div>
                 <div class="card-body">
 
-                    <EditForm Model="dto" OnValidSubmit="HandleSubmit">
+                    <EditForm Model="teamDto" OnValidSubmit="TeamSubmit">
                         <DataAnnotationsValidator />
                         <ValidationSummary class="alert alert-danger" />
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Nom de la team</label>
-                            <InputText class="form-control" @bind-Value="dto.Name" placeholder="Ex: Team Rocket" />
-                            <ValidationMessage For="@(() => dto.Name)" />
+                            <InputText class="form-control" @bind-Value="teamDto.Name" placeholder="Ex: Team Rocket" />
+                            <ValidationMessage For="@(() => teamDto.Name)" />
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Description</label>
-                            <InputTextArea class="form-control" @bind-Value="dto.Description" rows="3" placeholder="Description de la team..." />
-                            <ValidationMessage For="@(() => dto.Description)" />
+                            <InputTextArea class="form-control" @bind-Value="teamDto.Description" rows="3" placeholder="Description de la team..." />
+                            <ValidationMessage For="@(() => teamDto.Description)" />
                         </div>
 
                         @if (!string.IsNullOrEmpty(errorMessage))
@@ -55,18 +56,18 @@
 </div>
 
 @code {
-    private TeamDto dto = new() { Name = string.Empty };
+    private TeamDto teamDto = new TeamDto() { Name = string.Empty };
     private bool isLoading = false;
     private string errorMessage = string.Empty;
 
-    private async Task HandleSubmit()
+    private async Task TeamSubmit()
     {
         isLoading = true;
         errorMessage = string.Empty;
 
         try
         {
-            var response = await Http.PostAsJsonAsync("/api/teams", dto);
+            HttpResponseMessage? response = await Http.PostAsJsonAsync("/api/teams", teamDto);
 
             if (response.IsSuccessStatusCode)
                 Nav.NavigateTo("/teams");

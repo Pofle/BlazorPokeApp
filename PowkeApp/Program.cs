@@ -18,7 +18,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents(); // SSR + SignalR (Blazor Server)
 
 // Registers HttpClient - uses http in development (dotnet watch), https in production
 var baseUrl = builder.Environment.IsDevelopment()
