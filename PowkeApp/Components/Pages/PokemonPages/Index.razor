@@ -1,7 +1,7 @@
 @page "/pokemons"
 @using Microsoft.EntityFrameworkCore
 @using Microsoft.AspNetCore.Components.QuickGrid
-@using PowkeApp.Models
+@using PowkeApp.Api
 @using PowkeApp.Data
 @inject HttpClient Http
 
@@ -20,21 +20,19 @@
 else
 {
     <QuickGrid Class="table" Items="pokemons.AsQueryable()">
-        <PropertyColumn Property="pokemon => pokemon.Name" />
-        <PropertyColumn Property="pokemon => pokemon.Weight" />
-        <TemplateColumn Context="pokemon">
-            <a href="@($"pokemons/edit?id={pokemon.Id}")">Edit</a> |
-            <a href="@($"pokemons/details?id={pokemon.Id}")">Details</a> |
-            <a href="@($"pokemons/delete?id={pokemon.Id}")">Delete</a>
+        <TemplateColumn Title="Sprite">
+            <img src="@context.FrontDefault" alt="@context.Name" width="60" />
         </TemplateColumn>
+        <PropertyColumn Property="pokemon => pokemon.Name" />
+        <PropertyColumn Property="pokemon => pokemon.Weight" />   
     </QuickGrid>
 }
 
 @code {
-    private List<Pokemon>? pokemons;
+    private List<PokemonDto>? pokemons;
 
     protected override async Task OnInitializedAsync()
     {
-        pokemons = await Http.GetFromJsonAsync<List<Pokemon>>("/api/pokemons");
+        pokemons = await Http.GetFromJsonAsync<List<PokemonDto>>("/api/pokemons");
     }
 }

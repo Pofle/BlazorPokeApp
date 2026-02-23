@@ -1,17 +1,9 @@
 ﻿@page "/"
-@using Microsoft.EntityFrameworkCore
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using PowkeApp.Api
-@using PowkeApp.Data
 @inject HttpClient Http
 
 <PageTitle>Pokemons</PageTitle>
-
-<h1>Pokemons</h1>
-
-<p>
-    <a href="pokemons/create">Create New</a>
-</p>
 
 @if (pokemons == null)
 {
@@ -19,14 +11,24 @@
 }
 else
 {
-    <QuickGrid Class="table" Items="pokemons.AsQueryable()">
-        <TemplateColumn Title="Sprite">
-            <img src="@context.FrontDefault" alt="@context.Name" width="60" />
-        </TemplateColumn>
-        <PropertyColumn Property="pokemon => pokemon.Name" />
-        <PropertyColumn Property="pokemon => pokemon.Weight" />
-        
-    </QuickGrid>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        @foreach (var pokemon in pokemons)
+        {
+            <div class="col">
+                <div class="card h-100 text-center">
+                    <img src="@pokemon.FrontDefault" class="card-img-top mx-auto mt-2" alt="@pokemon.Name" style="width: 200px;" />
+                    <div class="card-body">
+                        <h5 class="card-title text-capitalize">@pokemon.Name</h5>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                Poids : @pokemon.Weight | Taille : @pokemon.Height
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 }
 
 @code {

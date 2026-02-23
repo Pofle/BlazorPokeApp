@@ -20,8 +20,14 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// Registers HttpClient for Blazor components to consume internal API endpoints
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7078") });
+// Registers HttpClient - uses http in development (dotnet watch), https in production
+var baseUrl = builder.Environment.IsDevelopment()
+    ? "http://localhost:5186"
+    : "https://localhost:7078";
+
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseUrl) });
+
+
 
 var app = builder.Build();
 
