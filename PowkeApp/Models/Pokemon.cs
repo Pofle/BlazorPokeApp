@@ -15,4 +15,5 @@ public class Pokemon
     public ICollection<PokemonAbility> Abilities { get; set; } = [];
     public ICollection<PokemonMove> Moves { get; set; } = [];
     public PokemonSprite? Sprite { get; set; }
+    public ICollection<Team> Teams { get; set; } = [];
 }

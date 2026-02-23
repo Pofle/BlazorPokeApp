@@ -21,6 +21,7 @@ namespace PowkeApp.Data
         public DbSet<PokemonMove> PokemonMoves => Set<PokemonMove>();
         public DbSet<PokemonEvolution> PokemonEvolutions => Set<PokemonEvolution>();
         public DbSet<PokemonSprite> PokemonSprites => Set<PokemonSprite>();
+        public DbSet<Team> Teams => Set<Team>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
