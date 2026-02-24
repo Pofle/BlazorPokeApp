@@ -12,12 +12,18 @@ public static class PokemonApi
         app.MapGet("/api/pokemons", GetAllPokemons);
 
         //*Team API
+        app.MapGet("/api/teams", GetAllTeams);
         app.MapPost("/api/teams", CreateTeam);
     }
 
-    private static async Task<IResult> GetAllPokemons(IDbContextFactory<PowkeAppDbContext> dbFactory)
+/// <summary>
+/// Get ALL the Pokemons
+/// </summary>
+/// <param name="db"> Database context </param>
+/// <returns></returns>
+    private static async Task<IResult> GetAllPokemons(IDbContextFactory<PowkeAppDbContext> db)
     {
-        await using var context = await dbFactory.CreateDbContextAsync();
+        await using var context = await db.CreateDbContextAsync();
         var pokemons = await context.Pokemons
             .Include(p => p.Sprite)
             .Select(p => new
@@ -28,18 +34,42 @@ public static class PokemonApi
                 p.Height,
                 p.Order,
                 FrontDefault = p.Sprite != null ? p.Sprite.FrontDefault : null
-            })
-            .ToListAsync();
+            }).ToListAsync();
 
         return Results.Ok(pokemons);
     }
 
-    private static async Task<IResult> CreateTeam(TeamDto dto, PowkeAppDbContext db)
+    /// <summary>
+    /// Get ALL the Teams
+    /// </summary>
+    /// <param name="db"> Database context</param>
+    /// <returns></returns>
+    private static async Task<IResult> GetAllTeams (IDbContextFactory<PowkeAppDbContext> db)
+    {
+        await using var context = await db.CreateDbContextAsync();
+        var teams = await context.Teams
+        .Select(t => new
+        {
+            t.Id,
+            t.Name,
+            t.Description
+        }).ToListAsync();
+        
+        return Results.Ok(teams);
+    }
+
+    /// <summary>
+    /// CREATE a new Team
+    /// </summary>
+    /// <param name="TeamDto"> DTO for team </param>
+    /// <param name="db"> Databse context</param>
+    /// <returns></returns>
+    private static async Task<IResult> CreateTeam(TeamDto TeamDto, PowkeAppDbContext db)
     {
         var team = new Team
         {
-            Name = dto.Name,
-            Description = dto.Description
+            Name = TeamDto.Name,
+            Description = TeamDto.Description
         };
 
         db.Teams.Add(team);
